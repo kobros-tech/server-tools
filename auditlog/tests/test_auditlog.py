@@ -544,6 +544,11 @@ class AuditLogRuleTestForUserFields(TransactionCase):
         # Checking fields_to_exclude_ids
         self.testpartner1.with_context(tracking_disable=True).write(
             {
+                "mobile": "1234567890",
+            }
+        )
+        self.testpartner1.with_context(tracking_disable=True).write(
+            {
                 "phone": "1234567890",
             }
         )

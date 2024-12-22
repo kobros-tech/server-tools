@@ -1,6 +1,6 @@
 # Copyright 2015 ABF OSIELL <https://osiell.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -34,7 +34,7 @@ class AuditlogLog(models.Model):
         """Insert model_name and model_model field values upon creation."""
         for vals in vals_list:
             if not vals.get("model_id"):
-                raise UserError(_("No model defined to create log."))
+                raise UserError(self.env._("No model defined to create log."))
             model = self.env["ir.model"].sudo().browse(vals["model_id"])
             vals.update({"model_name": model.name, "model_model": model.model})
         return super().create(vals_list)
@@ -44,7 +44,7 @@ class AuditlogLog(models.Model):
         changes."""
         if "model_id" in vals:
             if not vals["model_id"]:
-                raise UserError(_("The field 'model_id' cannot be empty."))
+                raise UserError(self.env._("The field 'model_id' cannot be empty."))
             model = self.env["ir.model"].sudo().browse(vals["model_id"])
             vals.update({"model_name": model.name, "model_model": model.model})
         return super().write(vals)
@@ -73,7 +73,7 @@ class AuditlogLogLine(models.Model):
         field_description."""
         for vals in vals_list:
             if not vals.get("field_id"):
-                raise UserError(_("No field defined to create line."))
+                raise UserError(self.env._("No field defined to create line."))
             field = self.env["ir.model.fields"].sudo().browse(vals["field_id"])
             vals.update(
                 {"field_name": field.name, "field_description": field.field_description}
@@ -85,7 +85,7 @@ class AuditlogLogLine(models.Model):
         field_description values."""
         if "field_id" in vals:
             if not vals["field_id"]:
-                raise UserError(_("The field 'field_id' cannot be empty."))
+                raise UserError(self.env._("The field 'field_id' cannot be empty."))
             field = self.env["ir.model.fields"].sudo().browse(vals["field_id"])
             vals.update(
                 {"field_name": field.name, "field_description": field.field_description}

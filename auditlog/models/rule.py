@@ -3,7 +3,7 @@
 
 import copy
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 FIELDS_BLACKLIST = [
@@ -214,13 +214,13 @@ class AuditlogRule(models.Model):
         for rule in self:
             model_model = self.env[rule.model_id.model or rule.model_model]
             for method in ["create", "read", "write", "unlink"]:
-                if getattr(rule, "log_%s" % method) and hasattr(
+                if getattr(rule, f"log_{method}") and hasattr(
                     getattr(model_model, method), "origin"
                 ):
                     setattr(
                         type(model_model), method, getattr(model_model, method).origin
                     )
-                    delattr(type(model_model), "auditlog_ruled_%s" % method)
+                    delattr(type(model_model), f"auditlog_ruled_{method}")
                     updated = True
         if updated:
             self._update_registry()
@@ -230,7 +230,7 @@ class AuditlogRule(models.Model):
         """Update the registry when a new rule is created."""
         for vals in vals_list:
             if "model_id" not in vals or not vals["model_id"]:
-                raise UserError(_("No model defined to create line."))
+                raise UserError(self.env._("No model defined to create line."))
             model = self.env["ir.model"].sudo().browse(vals["model_id"])
             vals.update({"model_name": model.name, "model_model": model.model})
         new_records = super().create(vals_list)
@@ -243,7 +243,7 @@ class AuditlogRule(models.Model):
         """Update the registry when existing rules are updated."""
         if "model_id" in vals:
             if not vals["model_id"]:
-                raise UserError(_("Field 'model_id' cannot be empty."))
+                raise UserError(self.env._("Field 'model_id' cannot be empty."))
             model = self.env["ir.model"].sudo().browse(vals["model_id"])
             vals.update({"model_name": model.name, "model_model": model.model})
         res = super().write(vals)
@@ -723,11 +723,11 @@ class AuditlogRule(models.Model):
         act_window_model = self.env["ir.actions.act_window"]
         for rule in self:
             # Create a shortcut to view logs
-            domain = "[('model_id', '=', %s), ('res_id', '=', active_id)]" % (
-                rule.model_id.id
-            )
+            domain_tuple_1 = f"('model_id', '=', {rule.model_id.id})"
+            domain_tuple_2 = "('res_id', '=', active_id)"
+            domain = f"[{domain_tuple_1}, {domain_tuple_2}]"
             vals = {
-                "name": _("View logs"),
+                "name": self.env._("View logs"),
                 "res_model": "auditlog.log",
                 "binding_model_id": rule.model_id.id,
                 "domain": domain,
