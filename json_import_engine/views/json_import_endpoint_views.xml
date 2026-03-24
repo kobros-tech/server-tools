@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Form View -->
+    <record id="json_import_endpoint_form_view" model="ir.ui.view">
+        <field name="name">json.import.endpoint.form</field>
+        <field name="model">json.import.endpoint</field>
+        <field name="arch" type="xml">
+            <form string="JSON Import Endpoint">
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <group>
+                        <group string="Endpoint">
+                            <field name="name" />
+                            <field name="active" invisible="1" />
+                            <field name="schema_id" options="{'no_create': True}" />
+                            <field name="route_path" placeholder="e.g. partners" />
+                            <field name="full_url" widget="url" />
+                            <field name="schema_url" widget="url" />
+                        </group>
+                        <group string="Authentication">
+                            <field name="auth_type" />
+                            <field
+                                name="api_key"
+                                attrs="{'invisible': [('auth_type', '!=', 'api_key')]}"
+                                widget="CopyClipboardChar"
+                            />
+                            <field
+                                name="api_key_generated_at"
+                                attrs="{'invisible': [('auth_type', '!=', 'api_key')]}"
+                            />
+                            <button
+                                name="action_generate_api_key"
+                                string="Re-generate API Key"
+                                type="object"
+                                class="btn-link"
+                                icon="fa-refresh"
+                                attrs="{'invisible': [('auth_type', '!=', 'api_key')]}"
+                                confirm="This will invalidate the current API key. Continue?"
+                            />
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Options">
+                            <field name="validate_schema" />
+                        </group>
+                        <group string="CORS">
+                            <field
+                                name="cors_origin"
+                                placeholder="* or https://example.com"
+                            />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="json_import_endpoint_tree_view" model="ir.ui.view">
+        <field name="name">json.import.endpoint.tree</field>
+        <field name="model">json.import.endpoint</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="schema_id" />
+                <field name="route_path" />
+                <field name="full_url" widget="url" />
+                <field name="auth_type" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="json_import_endpoint_action" model="ir.actions.act_window">
+        <field name="name">REST Endpoints</field>
+        <field name="res_model">json.import.endpoint</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

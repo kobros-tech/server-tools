@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Wizard Form View -->
+    <record id="json_import_file_wizard_form_view" model="ir.ui.view">
+        <field name="name">json.import.file.wizard.form</field>
+        <field name="model">json.import.file.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import JSON File">
+                <!-- Upload State -->
+                <group attrs="{'invisible': [('state', '!=', 'upload')]}">
+                    <field name="state" invisible="1" />
+                    <field name="schema_id" readonly="1" />
+                    <field name="file_data" filename="file_name" />
+                    <field name="file_name" invisible="1" />
+                    <field name="validate_before_import" />
+                </group>
+                <!-- Done State -->
+                <group attrs="{'invisible': [('state', '!=', 'done')]}">
+                    <field name="state" invisible="1" />
+                    <div class="alert alert-success" role="alert">
+                        <field name="result_summary" nolabel="1" />
+                    </div>
+                    <group>
+                        <field name="result_created" />
+                        <field name="result_updated" />
+                        <field name="result_skipped" />
+                        <field name="result_failed" />
+                    </group>
+                    <group
+                        string="Error Details"
+                        attrs="{'invisible': [('result_errors', '=', False)]}"
+                    >
+                        <field
+                            name="result_errors"
+                            widget="text"
+                            readonly="1"
+                            nolabel="1"
+                        />
+                    </group>
+                </group>
+                <footer attrs="{'invisible': [('state', '!=', 'upload')]}">
+                    <button
+                        name="action_import"
+                        string="Import"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+                <footer attrs="{'invisible': [('state', '!=', 'done')]}">
+                    <button string="Close" class="btn-primary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

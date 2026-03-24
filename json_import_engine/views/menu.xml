@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Top Menu -->
+    <menuitem
+        id="menu_json_import_engine_root"
+        name="JSON Import Engine"
+        sequence="91"
+    />
+
+    <!-- Configuration Menu -->
+    <menuitem
+        id="menu_json_import_config"
+        name="Configuration"
+        parent="menu_json_import_engine_root"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_json_import_schema"
+        name="Import Schemas"
+        parent="menu_json_import_config"
+        action="json_import_schema_action"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_json_import_endpoint"
+        name="REST Endpoints"
+        parent="menu_json_import_config"
+        action="json_import_endpoint_action"
+        sequence="20"
+    />
+
+    <!-- Monitoring Menu -->
+    <menuitem
+        id="menu_json_import_monitoring"
+        name="Monitoring"
+        parent="menu_json_import_engine_root"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_json_import_log"
+        name="Import Logs"
+        parent="menu_json_import_monitoring"
+        action="json_import_log_action"
+        sequence="10"
+    />
+
+</odoo>

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_json_import_schema_manager,json.import.schema manager,model_json_import_schema,group_manager,1,1,1,1
+access_json_import_schema_user,json.import.schema user,model_json_import_schema,group_user,1,0,0,0
+access_json_import_endpoint_manager,json.import.endpoint manager,model_json_import_endpoint,group_manager,1,1,1,1
+access_json_import_endpoint_user,json.import.endpoint user,model_json_import_endpoint,group_user,1,0,0,0
+access_json_import_log_manager,json.import.log manager,model_json_import_log,group_manager,1,1,1,1
+access_json_import_log_user,json.import.log user,model_json_import_log,group_user,1,0,0,0
+access_json_import_file_wizard_manager,json.import.file.wizard manager,model_json_import_file_wizard,group_manager,1,1,1,1
+access_json_import_file_wizard_user,json.import.file.wizard user,model_json_import_file_wizard,group_user,1,1,1,0
